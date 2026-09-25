@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weekly Nutrition Tracker</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">🥗</span>
+      <div>
+        <h1>Weekly Nutrition Tracker</h1>
+        <p class="engine" id="engine">Loading…</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="log" role="tab"><span class="step">1</span>Log Meal</button>
+      <button class="tab" data-tab="meals" role="tab"><span class="step">2</span>My Meals</button>
+      <button class="tab" data-tab="daily" role="tab"><span class="step">3</span>Daily Tracker</button>
+      <button class="tab" data-tab="dashboard" role="tab"><span class="step">4</span>Weekly Progress</button>
+      <button class="tab" data-tab="insights" role="tab"><span class="step">5</span>Improve My Diet</button>
+      <button class="tab" data-tab="goals" role="tab"><span class="step">⚙</span>Goals</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============================== LOG MEAL ============================== -->
+  <section id="tab-log" class="panel active">
+    <div class="edit-banner" id="edit-banner" hidden></div>
+    <div class="grid-2">
+      <div class="card">
+        <h2 id="log-title">What did you eat?</h2>
+        <p class="muted">Describe your meal in plain English, including how much you had.</p>
+        <form id="meal-form">
+          <div class="row">
+            <label>Date
+              <input type="date" id="meal-date" required>
+              <span class="quick-dates">
+                <button type="button" class="linkish" data-quickdate="0">Today</button>
+                <button type="button" class="linkish" data-quickdate="-1">Yesterday</button>
+              </span>
+            </label>
+            <label>Meal<select id="meal-type"></select></label>
+          </div>
+          <label for="meal-text" class="sr-only">Meal description</label>
+          <textarea id="meal-text" rows="4" maxlength="1000"
+            placeholder="e.g. 2 eggs, 2 slices of whole wheat toast, 1 banana and 200 ml milk"></textarea>
+          <div class="examples" id="recent"></div>
+          <div class="examples" id="examples"></div>
+          <button type="submit" class="btn primary" id="calc-btn">Calculate nutrition</button>
+          <p class="muted small hint">Tip: press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to calculate.</p>
+        </form>
+        <div id="log-message"></div>
+      </div>
+
+      <div class="card" id="estimate-card" hidden>
+        <div class="card-head">
+          <h2>Review before saving</h2>
+          <span class="badge" id="estimate-source"></span>
+        </div>
+        <div id="estimate-stale"></div>
+        <div id="estimate-items"></div>
+        <div id="estimate-warnings"></div>
+        <div class="macro-strip" id="estimate-macros"></div>
+        <div id="estimate-nutrients"></div>
+        <div class="actions">
+          <button class="btn primary" id="save-btn">Save meal</button>
+          <button class="btn ghost" id="discard-btn">Discard</button>
+        </div>
+      </div>
+
+      <div class="card" id="estimate-empty">
+        <h2>How it works</h2>
+        <ol class="how">
+          <li><b>Describe</b> a meal — foods and amounts.</li>
+          <li><b>Calculate</b> — an AI nutrition service estimates the nutrients in it.</li>
+          <li><b>Review</b> — remove anything misread or adjust amounts.</li>
+          <li><b>Save</b> — the meal is added to your Excel log.</li>
+          <li><b>Track</b> — see each day and your week against your goals.</li>
+          <li><b>Improve</b> — get suggestions for your biggest gaps.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Meals this week</h2>
+        <button class="linkish" data-goto="meals">See all meals with nutrients →</button>
+      </div>
+      <div id="meal-list"></div>
+    </div>
+  </section>
+
+  <!-- ============================== MY MEALS ============================== -->
+  <section id="tab-meals" class="panel">
+    <div class="week-nav">
+      <button class="btn ghost" id="meals-prev" aria-label="Previous week">◀</button>
+      <div>
+        <h2 id="meals-week-label">This week</h2>
+        <p class="muted small" id="meals-week-sub"></p>
+      </div>
+      <button class="btn ghost" id="meals-next" aria-label="Next week">▶</button>
+    </div>
+    <div class="card">
+      <div class="card-head wrap-head">
+        <h2>My logged meals</h2>
+        <span class="muted small" id="meals-file"></span>
+      </div>
+      <p class="muted small">Tap a meal to see what it was interpreted as and its nutrients. You can log it again, edit it or delete it.</p>
+      <div id="all-meals"></div>
+    </div>
+    <div class="card sample-card">
+      <h3>Sample meals</h3>
+      <p class="muted small">The app ships with demo meals (marked “sample data”) so the dashboards have something to show.
+        These buttons only touch the sample meals — your own meals are always kept.</p>
+      <div class="actions">
+        <button class="btn ghost" id="sample-remove">Remove sample meals</button>
+        <button class="btn ghost" id="sample-reload">Reload sample meals</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== DAILY TRACKER ============================== -->
+  <section id="tab-daily" class="panel">
+    <div class="week-nav">
+      <button class="btn ghost" id="day-prev" aria-label="Previous day">◀</button>
+      <div>
+        <h2 id="day-label">Today</h2>
+        <div class="day-picker">
+          <input type="date" id="day-date" aria-label="Pick a day">
+          <button class="linkish" id="day-today">Today</button>
+        </div>
+      </div>
+      <button class="btn ghost" id="day-next" aria-label="Next day">▶</button>
+    </div>
+
+    <div class="week-strip" id="week-strip"></div>
+    <div class="stats" id="day-stats"></div>
+    <div class="card gaps" id="day-gaps"></div>
+
+    <div class="card">
+      <div class="card-head wrap-head">
+        <h2>Daily goals</h2>
+        <div class="controls">
+          <div class="seg" id="day-filter"></div>
+          <select id="day-sort" aria-label="Sort">
+            <option value="category">Group by category</option>
+            <option value="pct-asc">Lowest % first</option>
+            <option value="pct-desc">Highest % first</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="ntable">
+          <thead><tr><th>Nutrient</th><th class="num">Daily Goal</th><th class="num">Consumed</th>
+            <th class="bar-col">% of Goal</th><th class="num">Remaining</th><th>Status</th></tr></thead>
+          <tbody id="day-rows"></tbody>
+        </table>
+      </div>
+      <p class="muted small legend">Met ≥ 100% · Almost ≥ 75% · Low ≥ 50% · Very low &lt; 50% · Over limit = above the daily upper limit.
+        Goals can be changed on the <button class="linkish" data-goto="goals">Goals</button> screen.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head wrap-head">
+        <div>
+          <h2 id="day-insights-title">Improve today</h2>
+          <p class="muted small" id="day-insights-sub">Ideas for closing today's biggest gaps.</p>
+        </div>
+        <button class="btn primary" id="day-insights-btn">Suggest what to eat</button>
+      </div>
+      <div id="day-insights-body"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Meals on this day</h2>
+        <button class="linkish" data-goto="log">+ Log a meal</button></div>
+      <div id="day-meals"></div>
+    </div>
+  </section>
+
+  <!-- ============================== DASHBOARD ============================== -->
+  <section id="tab-dashboard" class="panel">
+    <div class="week-nav">
+      <button class="btn ghost" id="prev-week" aria-label="Previous week">◀</button>
+      <div>
+        <h2 id="week-label">This week</h2>
+        <p class="muted small" id="week-pace"></p>
+      </div>
+      <button class="btn ghost" id="next-week" aria-label="Next week">▶</button>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="card gaps" id="gaps-card"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>💪 Strongest nutrients</h3>
+        <div id="strongest"></div>
+      </div>
+      <div class="card">
+        <h3>⚠️ Weakest nutrients</h3>
+        <div id="weakest"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head wrap-head">
+        <h2>Nutrients this week</h2>
+        <div class="controls">
+          <div class="seg" id="cat-filter"></div>
+          <select id="sort-select" aria-label="Sort">
+            <option value="category">Group by category</option>
+            <option value="pct-asc">Lowest % first</option>
+            <option value="pct-desc">Highest % first</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="ntable">
+          <thead><tr><th>Nutrient</th><th class="num">Weekly Target</th><th class="num">Consumed</th>
+            <th class="bar-col">% Complete</th><th class="num">Remaining</th><th>Status</th></tr></thead>
+          <tbody id="nutrient-rows"></tbody>
+        </table>
+      </div>
+      <p class="muted small legend"><span class="pace-demo"></span> marker = where you'd be if on pace for this point in the week.
+        Targets come from <code id="targets-file"></code> (editable on the <button class="linkish" data-goto="goals">Goals</button> screen).</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head wrap-head">
+        <div>
+          <h2>Last 4 weeks</h2>
+          <p class="muted small">% of weekly target for your key nutrients — is it getting better?</p>
+        </div>
+      </div>
+      <div class="table-scroll" id="trends"></div>
+    </div>
+
+    <div class="cta">
+      <button class="btn primary" data-goto="insights">Get AI insights on these gaps →</button>
+    </div>
+  </section>
+
+  <!-- ============================== INSIGHTS ============================== -->
+  <section id="tab-insights" class="panel">
+    <div class="card">
+      <div class="card-head wrap-head">
+        <div>
+          <h2>Improve My Diet</h2>
+          <p class="muted" id="insights-week"></p>
+        </div>
+        <button class="btn primary" id="insights-btn">Analyze my week</button>
+      </div>
+      <div id="insights-body"></div>
+    </div>
+  </section>
+
+  <!-- ============================== GOALS ============================== -->
+  <section id="tab-goals" class="panel">
+    <div class="card">
+      <div class="card-head wrap-head">
+        <div>
+          <h2>My goals</h2>
+          <p class="muted small">Daily goals, weekly targets and upper limits used by the trackers. Saved to <code id="goals-file"></code>.</p>
+        </div>
+        <div class="controls">
+          <select id="preset-select" aria-label="Goal preset"></select>
+          <button class="btn ghost" id="preset-apply">Apply preset</button>
+        </div>
+      </div>
+      <div id="goals-message"></div>
+      <div class="table-scroll">
+        <table class="ntable goals-table">
+          <thead><tr><th>Nutrient</th><th class="num">Daily goal</th><th class="num">Weekly target</th>
+            <th class="num">Daily upper limit</th><th>Key nutrient</th></tr></thead>
+          <tbody id="goals-rows"></tbody>
+        </table>
+      </div>
+      <p class="muted small legend">Changing a daily goal updates its weekly target to 7× (you can still edit the weekly target yourself).
+        Leave the upper limit empty if there isn't one. Key nutrients are shown by default in tables and meal cards.
+        These are general reference values, not personalised medical advice.</p>
+      <div class="actions">
+        <button class="btn primary" id="goals-save">Save goals</button>
+        <button class="btn ghost" id="goals-revert">Undo changes</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Prototype for demonstration only. Nutrient values are AI/reference estimates and are not clinically validated;
+    nothing here is medical advice.
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

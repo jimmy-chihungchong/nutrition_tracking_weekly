@@ -1,0 +1,33 @@
+﻿key,nutrient,unit,category,daily_reference,weekly_target,daily_upper_limit,key_nutrient,reference_basis
+energy_kcal,Energy,kcal,Macronutrients,2000,14000,2400,yes,FDA Daily Value (2000 kcal diet); upper limit = prototype ceiling (120% of goal)
+protein_g,Protein,g,Macronutrients,50,350,,yes,FDA Daily Value
+carbs_g,Carbohydrates,g,Macronutrients,275,1925,,yes,FDA Daily Value
+fiber_g,Dietary Fiber,g,Macronutrients,28,196,,yes,FDA Daily Value
+fat_g,Total Fat,g,Macronutrients,78,546,,yes,FDA Daily Value
+omega3_g,Omega-3 Fatty Acids,g,Macronutrients,1.6,11.2,,,NIH Adequate Intake (ALA; adult male)
+omega6_g,Omega-6 Fatty Acids,g,Macronutrients,17,119,,,NIH Adequate Intake (linoleic acid; adult male)
+vit_a_ug,Vitamin A,μg,Vitamins,900,6300,3000,,FDA Daily Value (RAE); upper limit = NIH Tolerable Upper Intake Level
+vit_c_mg,Vitamin C,mg,Vitamins,90,630,2000,yes,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+vit_d_ug,Vitamin D,μg,Vitamins,20,140,100,yes,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+vit_e_mg,Vitamin E,mg,Vitamins,15,105,,,FDA Daily Value
+vit_k_ug,Vitamin K,μg,Vitamins,120,840,,,FDA Daily Value
+thiamin_mg,Thiamin (B1),mg,Vitamins,1.2,8.4,,,FDA Daily Value
+riboflavin_mg,Riboflavin (B2),mg,Vitamins,1.3,9.1,,,FDA Daily Value
+niacin_mg,Niacin (B3),mg,Vitamins,16,112,,,FDA Daily Value
+pantothenic_mg,Pantothenic Acid (B5),mg,Vitamins,5,35,,,FDA Daily Value
+vit_b6_mg,Vitamin B6,mg,Vitamins,1.7,11.9,100,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+biotin_ug,Biotin (B7),μg,Vitamins,30,210,,,FDA Daily Value
+folate_ug,Folate (B9),μg,Vitamins,400,2800,,,FDA Daily Value (DFE)
+vit_b12_ug,Vitamin B12,μg,Vitamins,2.4,16.8,,yes,FDA Daily Value
+choline_mg,Choline,mg,Vitamins,550,3850,3500,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+calcium_mg,Calcium,mg,Minerals,1300,9100,2500,yes,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+iron_mg,Iron,mg,Minerals,18,126,45,yes,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+magnesium_mg,Magnesium,mg,Minerals,420,2940,,,FDA Daily Value
+phosphorus_mg,Phosphorus,mg,Minerals,1250,8750,4000,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+potassium_mg,Potassium,mg,Minerals,4700,32900,,yes,FDA Daily Value
+sodium_mg,Sodium,mg,Minerals,1500,10500,2300,yes,NASEM Adequate Intake; upper limit = FDA Daily Value (2300 mg)
+zinc_mg,Zinc,mg,Minerals,11,77,40,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+copper_mg,Copper,mg,Minerals,0.9,6.3,10,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+manganese_mg,Manganese,mg,Minerals,2.3,16.1,11,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+selenium_ug,Selenium,μg,Minerals,55,385,400,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level
+iodine_ug,Iodine,μg,Minerals,150,1050,1100,,FDA Daily Value; upper limit = NIH Tolerable Upper Intake Level

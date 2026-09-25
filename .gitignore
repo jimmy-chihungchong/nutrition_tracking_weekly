@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.env
+data/nutrition_log.xlsx
+~$*.xlsx
+.~lock.*#
+*.xlsx.tmp
+*.csv.tmp
+.streamlit/secrets.toml
+*.json
+.claude/
